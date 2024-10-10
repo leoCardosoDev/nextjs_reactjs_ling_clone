@@ -6,7 +6,10 @@ const Buttons = () => {
       <Button>Default</Button>
       <Button variant="primary">Primary</Button>
       <Button variant="primaryOutline">Primary outline</Button>
-      <Button>Secondary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="secondaryOutline">Secondary Outline</Button>
+      <Button variant="danger">Danger</Button>
+      <Button variant="dangerOutline">Danger Outline</Button>
     </div>
   );
 };
