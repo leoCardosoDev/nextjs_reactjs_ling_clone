@@ -6,7 +6,7 @@ const CoursesPage = async () => {
   return (
     <div className="h-full max-w-[912px] px-3 mx-auto">
       <h1 className="text-2xl font-bold text-neutral-700">Cursos de idiomas</h1>
-      <List courses={courses} activeCoursedId={1} />
+      <List courses={courses} activeCoursedId={4} />
     </div>
   );
 };
