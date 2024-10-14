@@ -20,7 +20,7 @@ const LearnPage = async () => {
         />
       </StickyWrapper>
       <FeedWrapper>
-        <Header title="Espanhol" />
+        <Header title={userProgress.activeCourse.title} />
       </FeedWrapper>
     </div>
   );
