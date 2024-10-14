@@ -113,6 +113,7 @@ export const challengeProgressRelations = relations(
     }),
   })
 );
+
 export const userProgress = pgTable("user_progress", {
   userId: text("user_id").primaryKey(),
   userName: text("user_name").notNull().default("User"),
