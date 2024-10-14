@@ -5,6 +5,7 @@ import { Card } from "./card";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { upsertUserProgress } from "@/actions/user-progress";
+import { toast } from "sonner";
 
 type Courses = {
   courses: (typeof courses.$inferSelect)[];
@@ -20,7 +21,7 @@ export const List = ({ courses, activeCoursedId }: Courses) => {
       return router.push("/learn");
     }
     startTransition(() => {
-      upsertUserProgress(id);
+      upsertUserProgress(id).catch(() => toast.error("Algo deu errado!"));
     });
   };
   return (
