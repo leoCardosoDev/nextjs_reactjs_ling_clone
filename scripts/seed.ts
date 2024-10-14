@@ -7,11 +7,38 @@ import * as schema from "../db/schema";
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql, { schema });
 
-const main = () => {
+const main = async () => {
   try {
     console.log("Seeding database");
-    db.delete(schema.courses);
-    db.delete(schema.userProgress);
+    await db.delete(schema.courses);
+    await db.delete(schema.userProgress);
+    await db.insert(schema.courses).values([
+      {
+        id: 1,
+        title: "Espanhol",
+        imageSrc: "/es.svg",
+      },
+      {
+        id: 2,
+        title: "Italiano",
+        imageSrc: "/it.svg",
+      },
+      {
+        id: 3,
+        title: "Francês",
+        imageSrc: "/fr.svg",
+      },
+      {
+        id: 4,
+        title: "Croata",
+        imageSrc: "/hr.svg",
+      },
+      {
+        id: 5,
+        title: "Japonês",
+        imageSrc: "/jp.svg",
+      },
+    ]);
     console.log("Seeding finished");
   } catch (error) {
     console.log(error);

@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:studio": "npx drizzle-kit studio",
-    "db:push": "npx drizzle-kit push",
-    "db:seed": "tsx ./scripts/seed.ts"
+    "db:studio": "bunx drizzle-kit studio",
+    "db:push": "bunx drizzle-kit push",
+    "db:seed": "bun ./scripts/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.7.2",
@@ -38,7 +38,6 @@
     "eslint-config-next": "14.2.15",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "tsx": "^4.19.1",
     "typescript": "^5"
   }
 }
