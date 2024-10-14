@@ -2,14 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { InfinityIcon } from "lucide-react";
-
-interface ActiveCourse {
-  title: string;
-  imageSrc: string;
-}
+import { courses } from "@/db/schema";
 
 interface UserProgressProps {
-  activeCourse: ActiveCourse;
+  activeCourse: typeof courses.$inferSelect;
   hearts: number;
   points: number;
   hasActiveSubscription: boolean;
