@@ -33,7 +33,6 @@ export const getUnits = cache(async () => {
       },
     },
   });
-
   const normalizeData = data.map((unit) => {
     const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
       const allCompletedChallenges = lesson.challenges.every((challenge) => {
