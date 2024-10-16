@@ -44,6 +44,9 @@ export const getUnits = cache(async () => {
   });
   const normalizeData = data.map((unit) => {
     const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
+      if (lesson.challenges.length === 0) {
+        return { ...lesson, completed: false };
+      }
       const allCompletedChallenges = lesson.challenges.every((challenge) => {
         return (
           challenge.challengeProgress &&
@@ -141,4 +144,18 @@ export const getLesson = cache(async (id?: number) => {
     return { ...challenge, completed: completed };
   });
   return { ...data, challenges: normalizeChallenges };
+});
+
+export const getLessonPercentage = cache(async () => {
+  const courseProgress = await getCourseProgress();
+  if (!courseProgress?.activeLessonId) return 0;
+  const lesson = await getLesson(courseProgress.activeLessonId);
+  if (!lesson) return 0;
+  const completedChallages = lesson.challenges.filter(
+    (challenge) => challenge.completed
+  );
+  const percentage = Math.round(
+    (completedChallages.length / lesson.challenges.length) * 100
+  );
+  return percentage;
 });
