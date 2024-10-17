@@ -52,7 +52,7 @@ export const Footer = ({ status, disabled, onCheck, lessonId }: Props) => {
         >
           {status === "none" && "Confirmar"}
           {status === "correct" && "Próxima"}
-          {status === "wrong" && "Reenviar"}
+          {status === "wrong" && "Refazer"}
           {status === "completed" && "Continuar"}
         </Button>
       </div>

@@ -7,39 +7,26 @@ import { auth } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-const revalidate = (lessoId: number) => {
-  revalidatePath("/learn");
-  revalidatePath("/quests");
-  revalidatePath("/leaderboard");
-  revalidatePath("/lesson");
-  revalidatePath(`/lesson/${lessoId}`);
-};
-
 export const upsertChallengeProgress = async (challengeId: number) => {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
   const currentUserProgress = await getUserProgress();
-
   if (!currentUserProgress) throw new Error("User Progress Not found");
   const challenge = await db.query.challenges.findFirst({
     where: eq(challenges.id, challengeId),
   });
-
   if (!challenge) throw new Error("Challenge Not found");
-
-  const lessoId = challenge.lessonId;
+  const lessonId = challenge.lessonId;
   const existingChallengeProgress = await db.query.challengeProgress.findFirst({
     where: and(
       eq(challengeProgress.userId, userId),
       eq(challengeProgress.challengeId, challenge.id)
     ),
   });
-
   const isPratice = !!existingChallengeProgress;
   if (currentUserProgress.hearts === 0 && !isPratice) {
     return { error: "hearts" };
   }
-
   if (isPratice) {
     await db
       .update(challengeProgress)
@@ -52,7 +39,11 @@ export const upsertChallengeProgress = async (challengeId: number) => {
         points: currentUserProgress.points + 10,
       })
       .where(eq(userProgress.userId, userId));
-    revalidate(lessoId);
+    revalidatePath("/learn");
+    revalidatePath("/quests");
+    revalidatePath("/leaderboard");
+    revalidatePath("/lesson");
+    revalidatePath(`/lesson/${lessonId}`);
     return;
   }
 
@@ -68,5 +59,9 @@ export const upsertChallengeProgress = async (challengeId: number) => {
       points: currentUserProgress.points + 10,
     })
     .where(eq(userProgress.userId, userId));
-  revalidate(lessoId);
+  revalidatePath("/learn");
+  revalidatePath("/quests");
+  revalidatePath("/leaderboard");
+  revalidatePath("/lesson");
+  revalidatePath(`/lesson/${lessonId}`);
 };
