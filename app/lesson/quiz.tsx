@@ -14,6 +14,7 @@ import { useAudio, useWindowSize } from "react-use";
 import Image from "next/image";
 import { ResultCard } from "./result-card";
 import { useRouter } from "next/navigation";
+import { useHeartsModal } from "@/store/use-hearts-modal";
 
 type Props = {
   initialLessonId: number;
@@ -33,6 +34,7 @@ export const Quiz = ({
   initialPercentage,
   userSubscription,
 }: Props) => {
+  const { open: openHeartsModal } = useHeartsModal();
   const { width, height } = useWindowSize();
   const router = useRouter();
   const [finishAudio] = useAudio({
@@ -46,7 +48,7 @@ export const Quiz = ({
     src: "/incorrect.wav",
   });
 
-  const [lessonId, setLessonId] = useState(initialLessonId);
+  const [lessonId] = useState(initialLessonId);
   const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
@@ -88,7 +90,7 @@ export const Quiz = ({
         upsertChallengeProgress(challenge.id)
           .then((response) => {
             if (response?.error === "hearts") {
-              console.error("Missing hearts");
+              openHeartsModal();
               return;
             }
             correctControls.play();
@@ -105,7 +107,7 @@ export const Quiz = ({
         reduceHearts(challenge.id)
           .then((response) => {
             if (response?.error === "hearts") {
-              console.error("Missing hearts");
+              openHeartsModal();
               return;
             }
             inCorrectControls.play();
@@ -180,7 +182,7 @@ export const Quiz = ({
       <div className="flex-1">
         <div className="h-full flex items-center justify-center">
           <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-12">
-            <h1 className="text-lg lg:text-3xl text-center lg:text-start font-bold text-neutral-700">
+            <h1 className="text-lg lg:text-3xl text-center  font-bold text-neutral-700">
               {title}
             </h1>
             <div>
